@@ -1,6 +1,10 @@
 let num = ''
 let num1 = ''
 let num2 = ''
+let plus = false
+let minus = false
+let times = false
+let divideBy = false
 
 let displayNum = document.querySelector('.displayNumber')
 let LastResultNum = document.querySelector('.lastResultNum')
@@ -21,7 +25,7 @@ const buttonDivide = document.querySelector('.buttonDivide')
 const buttonEqual = document.querySelector('.buttonEqual')
 const buttonDot = document.querySelector('.buttonDot')
 
-changeLastResultValue()
+equalize()
 
 button1.addEventListener('click', (e) => {
     num = num + 1
@@ -78,40 +82,71 @@ buttonDot.addEventListener('click', (e) => {
     displayNum.textContent = num
 })
 
-buttonPlus.addEventListener('click', (e) => {
-    num1 = parseFloat(num)
-    num = ''
-    displayNum.textContent = num
-})
+function plusNum(e) {
+    buttonPlus.addEventListener('click', (e) => {
+        num1 = parseFloat(num)
+        plus = true
+        num = ''
+        displayNum.textContent = num
+    })
+}
 
-buttonMinus.addEventListener('click', (e) => {
-    num1 = parseFloat(num)
-    num = ''
-    displayNum.textContent = num
-})
+function minusNum(e) {
+    buttonMinus.addEventListener('click', (e) => {
+        minus = true
+        num1 = parseFloat(num)
+        num = ''
+        displayNum.textContent = num
+    })
+}
 
-buttonTimes.addEventListener('click', (e) => {
-    num1 = parseFloat(num)
-    num = ''
-    displayNum.textContent = num
-})
+function timesNum(e) {
+    buttonTimes.addEventListener('click', (e) => {
+        times = true
+        num1 = parseFloat(num)
+        num = ''
+        displayNum.textContent = num
+    })
+}
 
-buttonDivide.addEventListener('click', (e) => {
-    num1 = parseFloat(num)
-    num = ''
-    displayNum.textContent = num
-})
+function divideNum(e) {
+    buttonDivide.addEventListener('click', (e) => {
+        divideBy = true
+        num1 = parseFloat(num)
+        num = ''
+        displayNum.textContent = num
+    })
+}
 
-buttonEqual.addEventListener('click', (e) => {
-    num2 = parseFloat(num)
-    num = num1 + num2
-    displayNum.textContent = num
-    window.localStorage.setItem("LastResult", num)
-    LastResultNum.textContent = window.localStorage.getItem("LastResult")
-    num = ''
-})
+function equalize(e) {
+    plusNum()
+    minusNum()
+    timesNum()
+    divideNum()
+    buttonEqual.addEventListener('click', (e) => {
+        num2 = parseFloat(num)
+        if(plus === true){
+            num = num1 + num2
+            plus = false
+        }else if(minus === true){
+            num = num1 - num2
+            minus = false
+        }else if(times === true){
+            num = num1 * num2
+            times = false
+        }else if(divideBy === true){
+            num = num1 / num2
+            divideBy = false
+        }
+        displayNum.textContent = parseFloat(num).toFixed(2)
+        window.localStorage.setItem("LastResult", parseFloat(num).toFixed(2))
+        LastResultNum.textContent = window.localStorage.getItem("LastResult")
+        num = ''
+    })
+    changeLastResultValue()
+}
 
-function changeLastResultValue(e){
+function changeLastResultValue(e) {
     LastResultNum.textContent = window.localStorage.getItem("LastResult")
 }
 
